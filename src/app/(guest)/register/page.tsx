@@ -48,12 +48,11 @@ const RegisterPage = () => {
   })
 
   return (
-    <AuthCard
-      logo={
-        <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-        </Link>
-      }>
+    <AuthCard>
+      <h2 className="font-bold text-[34px] tracking-tighter mb-8 text-center">
+        Register
+      </h2>
+
       <Formik
         onSubmit={submitForm}
         validationSchema={RegisterSchema}
@@ -63,18 +62,13 @@ const RegisterPage = () => {
           password: '',
           password_confirmation: '',
         }}>
-        <Form className="space-y-4">
+        <Form className="space-y-8">
           <div>
-            <label
-              htmlFor="name"
-              className="undefined block font-medium text-sm text-gray-700">
-              Name
-            </label>
-
             <Field
               id="name"
               name="name"
-              className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="block p-4 leading-[150%] w-full rounded-2xl outline-none border-transparent bg-white placeholder:text-[#99A6AE] font-medium focus:outline-none focus:border-transparent focus:ring-transparent"
+              placeholder="Name"
             />
 
             <ErrorMessage
@@ -85,17 +79,12 @@ const RegisterPage = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="undefined block font-medium text-sm text-gray-700">
-              Email
-            </label>
-
             <Field
               id="email"
               name="email"
               type="email"
-              className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="block p-4 leading-[150%] w-full rounded-2xl outline-none border-transparent bg-white placeholder:text-[#99A6AE] font-medium focus:outline-none focus:border-transparent focus:ring-transparent"
+              placeholder="Email"
             />
 
             <ErrorMessage
@@ -106,17 +95,12 @@ const RegisterPage = () => {
           </div>
 
           <div className="">
-            <label
-              htmlFor="password"
-              className="undefined block font-medium text-sm text-gray-700">
-              Password
-            </label>
-
             <Field
               id="password"
               name="password"
               type="password"
-              className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="block p-4 leading-[150%] w-full rounded-2xl outline-none border-transparent bg-white placeholder:text-[#99A6AE] font-medium focus:outline-none focus:border-transparent focus:ring-transparent"
+              placeholder="Password"
             />
 
             <ErrorMessage
@@ -127,17 +111,12 @@ const RegisterPage = () => {
           </div>
 
           <div className="">
-            <label
-              htmlFor="password"
-              className="undefined block font-medium text-sm text-gray-700">
-              Confirm Password
-            </label>
-
             <Field
               id="password_confirmation"
               name="password_confirmation"
               type="password"
-              className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="block p-4 leading-[150%] w-full rounded-2xl outline-none border-transparent bg-white placeholder:text-[#99A6AE] font-medium focus:outline-none focus:border-transparent focus:ring-transparent"
+              placeholder="Confirm Password"
             />
 
             <ErrorMessage
@@ -147,18 +126,20 @@ const RegisterPage = () => {
             />
           </div>
 
-          <div className="flex items-center justify-end mt-4">
-            <Link
-              href="/login"
-              className="underline text-sm text-gray-600 hover:text-gray-900">
-              Already registered?
-            </Link>
-
+          <div className="space-y-4">
             <button
               type="submit"
-              className="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+              className="text-white px-4 py-3 rounded-2xl bg-primary font-bold w-full tracking-[-0.2px]">
               Register
             </button>
+
+            <p className="text-center">
+              <Link
+                href="/login"
+                className="text-center font-bold leading-[150%] tracking-[-0.4px] text-primary hover:text-primary-shade-1">
+                Already registered?
+              </Link>
+            </p>
           </div>
         </Form>
       </Formik>

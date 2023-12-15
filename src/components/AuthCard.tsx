@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 
 type Props = {
-  logo: ReactNode
+  logo?: ReactNode
   children: ReactNode
 }
 
