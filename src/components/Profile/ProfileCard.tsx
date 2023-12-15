@@ -1,11 +1,15 @@
-import { ProfileType } from '@/types/Profile'
 import React, { ComponentProps } from 'react'
+import { ProfileType } from '@/types/Profile'
 
-interface Props extends ComponentProps<'li'> {
+interface ProfileCardProps extends ComponentProps<'li'> {
   profile: ProfileType
 }
 
-const ProfileCard = ({ profile, className = '', ...props }: Props) => {
+const ProfileCard = ({
+  profile,
+  className = '',
+  ...props
+}: ProfileCardProps) => {
   return (
     <li className={`bg-white rounded-2xl p-4 ${className}`} {...props}>
       <h5 className="text-lg font-semibold leading-[120%] text-[#002034] tracking-[-1px]">
