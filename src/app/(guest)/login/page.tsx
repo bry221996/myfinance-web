@@ -55,31 +55,25 @@ const LoginPage = () => {
   })
 
   return (
-    <AuthCard
-      logo={
-        <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-        </Link>
-      }>
+    <AuthCard>
       <AuthSessionStatus className="mb-4" status={status} />
+
+      <h2 className="font-bold text-[34px] tracking-tighter mb-8 text-center">
+        Sign in
+      </h2>
 
       <Formik
         onSubmit={submitForm}
         validationSchema={LoginSchema}
         initialValues={{ email: '', password: '', remember: false }}>
-        <Form className="space-y-4">
+        <Form className="space-y-8">
           <div>
-            <label
-              htmlFor="email"
-              className="undefined block font-medium text-sm text-gray-700">
-              Email
-            </label>
-
             <Field
               id="email"
               name="email"
               type="email"
-              className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="block p-4 leading-[150%] w-full rounded-2xl outline-none border-transparent bg-white placeholder:text-[#99A6AE] font-medium focus:outline-none focus:border-transparent focus:ring-transparent"
+              placeholder="Email Address"
             />
 
             <ErrorMessage
@@ -90,17 +84,12 @@ const LoginPage = () => {
           </div>
 
           <div className="">
-            <label
-              htmlFor="password"
-              className="undefined block font-medium text-sm text-gray-700">
-              Password
-            </label>
-
             <Field
               id="password"
               name="password"
               type="password"
-              className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="block p-4 leading-[150%] w-full rounded-2xl outline-none border-transparent bg-white placeholder:text-[#99A6AE] font-medium focus:outline-none focus:border-transparent focus:ring-transparent"
+              placeholder="Password"
             />
 
             <ErrorMessage
@@ -118,25 +107,25 @@ const LoginPage = () => {
                 className="rounded border-[#99A6AE] text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
 
-              <span className="ml-2 text-[#252729] text-sm leading-[150%] tracking-[-0.4px] font-medium">
+              <span className="ml-2 text-[#252729] leading-[150%] tracking-[-0.4px] font-medium">
                 Remember me
               </span>
             </label>
+
+            <div className="flex items-center">
+              <Link
+                href="/forgot-password"
+                className="font-bold leading-[150%] tracking-[-0.4px] text-primary-shade-1 hover:text-primary-shade-2">
+                Forgot your password?
+              </Link>
+            </div>
           </div>
 
-          <div className="flex items-center justify-end mt-4">
-            <Link
-              href="/forgot-password"
-              className="underline text-sm text-gray-600 hover:text-gray-900">
-              Forgot your password?
-            </Link>
-
-            <button
-              type="submit"
-              className="ml-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-              Login
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="text-white px-4 py-3 rounded-2xl bg-primary font-bold w-full tracking-[-0.2px]">
+            Login
+          </button>
         </Form>
       </Formik>
     </AuthCard>
