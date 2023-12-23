@@ -6,7 +6,6 @@ import axios, { AxiosError } from 'axios'
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 
 import { useAuth } from '@/hooks/auth'
-import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
 import { useEffect, useState } from 'react'
 import AuthSessionStatus from '@/components/AuthSessionStatus'

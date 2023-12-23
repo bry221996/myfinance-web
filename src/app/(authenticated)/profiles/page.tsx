@@ -19,12 +19,17 @@ const ProfilesPage = () => {
         throw error.response?.data || error.message || 'Unknown error occurred'
       })
 
-  const { data } = useSWR('/api/profiles', fetcher)
+  const { data, mutate } = useSWR('/api/profiles', fetcher)
   const [openForm, setOpenForm] = useState<boolean>(false)
+
+  const toggleFormModal = (isOpen: boolean): void => {
+    setOpenForm(isOpen)
+    mutate()
+  }
 
   return (
     <div className="max-w-3xl mx-auto py-4 px-2">
-      <ProfileFormModal isOpen={openForm} setIsOpen={setOpenForm} />
+      <ProfileFormModal isOpen={openForm} setIsOpen={toggleFormModal} />
 
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-2xl leading-[120%] tracking-[-2px]">
@@ -33,7 +38,7 @@ const ProfilesPage = () => {
 
         <button
           onClick={() => setOpenForm(true)}
-          className="flex items-center space-x-1 bg-primary text-white tracking-[-1px] font-medium px-2 py-1.5 rounded-md">
+          className="flex items-center space-x-1 bg-primary text-white tracking-[-1px] font-semibold px-2 py-1.5 rounded-md">
           <span>Create new</span>
           <PlusCircleIcon className="w-5 h-5" />
         </button>
