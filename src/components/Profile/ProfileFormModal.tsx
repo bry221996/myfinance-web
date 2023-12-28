@@ -6,10 +6,12 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import Axios, { AxiosError } from 'axios'
 import * as Yup from 'yup'
 import axios from '@/lib/axios'
+import { ProfileType } from '@/types/Profile'
 
 interface ProfileFormModalProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
+  profile?: ProfileType | null
 }
 
 interface FormValues {
@@ -17,13 +19,19 @@ interface FormValues {
   description: string
 }
 
-const ProfileFormModal = ({ isOpen, setIsOpen }: ProfileFormModalProps) => {
+const ProfileFormModal = ({
+  isOpen,
+  profile,
+  setIsOpen,
+}: ProfileFormModalProps) => {
   const submitForm = async (
     values: FormValues,
     { setSubmitting, setErrors }: FormikHelpers<FormValues>,
   ): Promise<any> => {
     try {
-      await axios.post('/api/profiles', values)
+      profile
+        ? await axios.put(`/api/profiles/${profile?.id}`, values)
+        : await axios.post('/api/profiles', values)
       setIsOpen(false)
     } catch (error: Error | AxiosError | any) {
       if (Axios.isAxiosError(error) && error.response?.status === 422) {
@@ -45,7 +53,7 @@ const ProfileFormModal = ({ isOpen, setIsOpen }: ProfileFormModalProps) => {
         <Dialog.Title
           as="h3"
           className="text-lg font-bold leading-[120%] tracking-[-0.5px] text-[#002034] flex justify-between items-center">
-          Create new Profile
+          {profile ? 'Edit Profile' : 'Create new Profile'}
           <XMarkIcon
             className="w-5 h-5 text-[#002034]"
             onClick={() => setIsOpen(false)}
@@ -54,7 +62,10 @@ const ProfileFormModal = ({ isOpen, setIsOpen }: ProfileFormModalProps) => {
 
         <div className="mt-6">
           <Formik
-            initialValues={{ name: '', description: '' }}
+            initialValues={{
+              name: profile?.name ?? '',
+              description: profile?.description ?? '',
+            }}
             onSubmit={submitForm}
             validationSchema={ProfileSchema}>
             {({ isSubmitting }) => (
@@ -94,8 +105,9 @@ const ProfileFormModal = ({ isOpen, setIsOpen }: ProfileFormModalProps) => {
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="text-white px-4 py-3 rounded-2xl bg-primary font-bold w-full tracking-[-0.2px]">
-                  Submit
+                  {profile ? 'Update' : 'Submit'}
                 </button>
               </Form>
             )}

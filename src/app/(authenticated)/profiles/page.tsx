@@ -20,16 +20,34 @@ const ProfilesPage = () => {
       })
 
   const { data, mutate } = useSWR('/api/profiles', fetcher)
+
   const [openForm, setOpenForm] = useState<boolean>(false)
+  const [selectedProfile, setSelectedProfile] = useState<ProfileType | null>(
+    null,
+  )
 
   const toggleFormModal = (isOpen: boolean): void => {
     setOpenForm(isOpen)
+    setSelectedProfile(null)
     mutate()
+  }
+
+  const onEditProfile = (profile: ProfileType) => {
+    setSelectedProfile(profile)
+    setOpenForm(true)
+  }
+
+  const onDeleteProfile = (profile: ProfileType) => {
+    setSelectedProfile(profile)
   }
 
   return (
     <div className="max-w-3xl mx-auto py-4 px-2">
-      <ProfileFormModal isOpen={openForm} setIsOpen={toggleFormModal} />
+      <ProfileFormModal
+        isOpen={openForm}
+        profile={selectedProfile}
+        setIsOpen={toggleFormModal}
+      />
 
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-2xl leading-[120%] tracking-[-2px]">
@@ -51,6 +69,8 @@ const ProfilesPage = () => {
               className="border-white"
               key={`profile-${profile.id}`}
               profile={profile}
+              onEdit={onEditProfile}
+              onDelete={onDeleteProfile}
             />
           ))}
       </ul>

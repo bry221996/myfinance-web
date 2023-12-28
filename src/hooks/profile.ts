@@ -1,14 +1,19 @@
 import axios from '@/lib/axios'
-import { useCallback } from 'react'
+import { ProfileType } from '@/types/Profile'
+import useSWR, { Fetcher } from 'swr'
 
 const useProfile = () => {
-  const getProfiles = useCallback(async () => {
-    const response = await axios.get('/api/profiles')
+  const fetcher: Fetcher<ProfileType[], string> = () =>
+    axios
+      .get('/api/profiles')
+      .then(res => res.data.data)
+      .catch(error => {
+        throw error.response?.data || error.message || 'Unknown error occurred'
+      })
 
-    console.log(response.data)
-  }, [])
+  const { data: profiles, mutate } = useSWR('/api/profiles', fetcher)
 
-  return { getProfiles }
+  return { profiles }
 }
 
 export default useProfile
