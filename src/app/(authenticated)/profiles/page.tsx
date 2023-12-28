@@ -9,6 +9,7 @@ import Modal from '@/components/Modal'
 import ProfileCard from '@/components/Profile/ProfileCard'
 import { ProfileType } from '@/types/Profile'
 import ProfileFormModal from '@/components/Profile/ProfileFormModal'
+import ConfirmDeleteModal from '@/components/Profile/ConfirmDeleteModal'
 
 const ProfilesPage = () => {
   const fetcher: Fetcher<ProfileType[], string> = () =>
@@ -22,6 +23,9 @@ const ProfilesPage = () => {
   const { data, mutate } = useSWR('/api/profiles', fetcher)
 
   const [openForm, setOpenForm] = useState<boolean>(false)
+  const [openDeleteConfirmation, setOpenDeleteConfirmation] =
+    useState<boolean>(false)
+
   const [selectedProfile, setSelectedProfile] = useState<ProfileType | null>(
     null,
   )
@@ -32,6 +36,15 @@ const ProfilesPage = () => {
     mutate()
   }
 
+  const toggleConfirmDeletionModal = (isOpen: boolean): void => {
+    setOpenDeleteConfirmation(isOpen)
+
+    if (!isOpen) {
+      setSelectedProfile(null)
+      mutate()
+    }
+  }
+
   const onEditProfile = (profile: ProfileType) => {
     setSelectedProfile(profile)
     setOpenForm(true)
@@ -39,10 +52,19 @@ const ProfilesPage = () => {
 
   const onDeleteProfile = (profile: ProfileType) => {
     setSelectedProfile(profile)
+    toggleConfirmDeletionModal(true)
   }
 
   return (
     <div className="max-w-3xl mx-auto py-4 px-2">
+      {selectedProfile && (
+        <ConfirmDeleteModal
+          profile={selectedProfile}
+          isOpen={openDeleteConfirmation}
+          setIsOpen={toggleConfirmDeletionModal}
+        />
+      )}
+
       <ProfileFormModal
         isOpen={openForm}
         profile={selectedProfile}
