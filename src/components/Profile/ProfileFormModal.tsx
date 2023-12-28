@@ -1,11 +1,12 @@
 import React from 'react'
-import Modal from '../Modal'
+import * as Yup from 'yup'
+import Axios, { AxiosError } from 'axios'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
-import Axios, { AxiosError } from 'axios'
-import * as Yup from 'yup'
-import axios from '@/lib/axios'
+
+import Modal from '@/components/Modal'
+import useProfile from '@/hooks/profile'
 import { ProfileType } from '@/types/Profile'
 
 interface ProfileFormModalProps {
@@ -24,14 +25,16 @@ const ProfileFormModal = ({
   profile,
   setIsOpen,
 }: ProfileFormModalProps) => {
+  const { createProfile, updateProfile } = useProfile()
+
   const submitForm = async (
     values: FormValues,
     { setSubmitting, setErrors }: FormikHelpers<FormValues>,
   ): Promise<any> => {
     try {
       profile
-        ? await axios.put(`/api/profiles/${profile?.id}`, values)
-        : await axios.post('/api/profiles', values)
+        ? await updateProfile(profile?.id, values)
+        : await createProfile(values)
       setIsOpen(false)
     } catch (error: Error | AxiosError | any) {
       if (Axios.isAxiosError(error) && error.response?.status === 422) {

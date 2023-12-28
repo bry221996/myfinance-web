@@ -3,8 +3,8 @@ import { AxiosError } from 'axios'
 import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 
-import axios from '@/lib/axios'
 import Modal from '@/components/Modal'
+import useProfile from '@/hooks/profile'
 import { ProfileType } from '@/types/Profile'
 
 interface ConfirmDeleteModalProps {
@@ -18,9 +18,11 @@ const ConfirmDeleteModal = ({
   profile,
   setIsOpen,
 }: ConfirmDeleteModalProps) => {
+  const { deleteProfile } = useProfile()
+
   const onDelete = async (): Promise<any> => {
     try {
-      await axios.delete(`/api/profiles/${profile.id}`)
+      await deleteProfile(profile.id)
       setIsOpen(false)
     } catch (error: Error | AxiosError | any) {
       console.log(error.message)

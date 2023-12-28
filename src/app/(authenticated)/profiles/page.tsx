@@ -1,26 +1,15 @@
 'use client'
-import useSWR, { Fetcher } from 'swr'
 import React, { useState } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 
-import axios from '@/lib/axios'
-
-import Modal from '@/components/Modal'
-import ProfileCard from '@/components/Profile/ProfileCard'
+import useProfile from '@/hooks/profile'
 import { ProfileType } from '@/types/Profile'
+import ProfileCard from '@/components/Profile/ProfileCard'
 import ProfileFormModal from '@/components/Profile/ProfileFormModal'
 import ConfirmDeleteModal from '@/components/Profile/ConfirmDeleteModal'
 
 const ProfilesPage = () => {
-  const fetcher: Fetcher<ProfileType[], string> = () =>
-    axios
-      .get('/api/profiles')
-      .then(res => res.data.data)
-      .catch(error => {
-        throw error.response?.data || error.message || 'Unknown error occurred'
-      })
-
-  const { data, mutate } = useSWR('/api/profiles', fetcher)
+  const { profiles } = useProfile()
 
   const [openForm, setOpenForm] = useState<boolean>(false)
   const [openDeleteConfirmation, setOpenDeleteConfirmation] =
@@ -33,7 +22,6 @@ const ProfilesPage = () => {
   const toggleFormModal = (isOpen: boolean): void => {
     setOpenForm(isOpen)
     setSelectedProfile(null)
-    mutate()
   }
 
   const toggleConfirmDeletionModal = (isOpen: boolean): void => {
@@ -41,7 +29,6 @@ const ProfilesPage = () => {
 
     if (!isOpen) {
       setSelectedProfile(null)
-      mutate()
     }
   }
 
@@ -85,8 +72,8 @@ const ProfilesPage = () => {
       </div>
 
       <ul className="space-y-4 mt-8">
-        {data &&
-          data.map(profile => (
+        {profiles &&
+          profiles.map(profile => (
             <ProfileCard
               className="border-white"
               key={`profile-${profile.id}`}

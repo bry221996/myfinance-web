@@ -11,9 +11,33 @@ const useProfile = () => {
         throw error.response?.data || error.message || 'Unknown error occurred'
       })
 
-  const { data: profiles, mutate } = useSWR('/api/profiles', fetcher)
+  const { data: profiles, mutate: refreshProfiles } = useSWR(
+    '/api/profiles',
+    fetcher,
+  )
 
-  return { profiles }
+  const createProfile = async (values: Partial<ProfileType>) => {
+    await axios.post('/api/profiles', values)
+
+    refreshProfiles()
+  }
+
+  const updateProfile = async (
+    profileId: number,
+    values: Partial<ProfileType>,
+  ) => {
+    await axios.put(`/api/profiles/${profileId}`, values)
+
+    refreshProfiles()
+  }
+
+  const deleteProfile = async (profileId: number) => {
+    await axios.delete(`/api/profiles/${profileId}`)
+
+    refreshProfiles()
+  }
+
+  return { profiles, createProfile, updateProfile, deleteProfile }
 }
 
 export default useProfile
