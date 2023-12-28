@@ -1,6 +1,8 @@
 import Link from 'next/link'
-import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { Fragment, useState } from 'react'
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 import NavLink from '@/components/NavLink'
 import Dropdown from '@/components/Dropdown'
@@ -10,20 +12,23 @@ import ResponsiveNavLink, {
 import { DropdownButton } from '@/components/DropdownLink'
 import ApplicationLogo from '@/components/ApplicationLogo'
 
-import { UserType } from '@/types/User'
 import { useAuth } from '@/hooks/auth'
+import useProfile from '@/hooks/profile'
+import { UserType } from '@/types/User'
 import { ProfileType } from '@/types/Profile'
+import ProfilePicker from '../Profile/ProfilePicker'
 
 interface NavigationProps {
   user: UserType
   profiles: ProfileType[]
 }
 
-const Navigation = ({ user }: NavigationProps) => {
+const Navigation = ({ user, profiles }: NavigationProps) => {
   const pathname = usePathname()
 
   const { logout } = useAuth({})
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(true)
+  const { selectedProfile, setSelectedProfile } = useProfile()
 
   return (
     <nav className="bg-white border-b border-gray-100">
@@ -48,6 +53,10 @@ const Navigation = ({ user }: NavigationProps) => {
 
           {/* Settings Dropdown */}
           <div className="hidden sm:flex sm:items-center sm:ml-6">
+            <div className="w-48 mr-2">
+              <ProfilePicker profiles={profiles} />
+            </div>
+
             <Dropdown
               align="right"
               width={48}
@@ -145,6 +154,10 @@ const Navigation = ({ user }: NavigationProps) => {
                   {user?.email}
                 </div>
               </div>
+            </div>
+
+            <div className="px-4 mt-3">
+              <ProfilePicker profiles={profiles} />
             </div>
 
             <div className="mt-3 space-y-1">
