@@ -12,8 +12,14 @@ import ApplicationLogo from '@/components/ApplicationLogo'
 
 import { UserType } from '@/types/User'
 import { useAuth } from '@/hooks/auth'
+import { ProfileType } from '@/types/Profile'
 
-const Navigation = ({ user }: { user: UserType }) => {
+interface NavigationProps {
+  user: UserType
+  profiles: ProfileType[]
+}
+
+const Navigation = ({ user }: NavigationProps) => {
   const pathname = usePathname()
 
   const { logout } = useAuth({})

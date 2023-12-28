@@ -2,13 +2,15 @@
 import { ReactNode } from 'react'
 import { useAuth } from '@/hooks/auth'
 import Navigation from '@/components/Layouts/Navigation'
+import useProfile from '@/hooks/profile'
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth({ middleware: 'auth' })
+  const { profiles } = useProfile()
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navigation user={user} />
+      <Navigation user={user} profiles={profiles ?? []} />
 
       {/* Page Content */}
       <main>{children}</main>
