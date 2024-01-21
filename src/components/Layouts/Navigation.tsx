@@ -45,8 +45,8 @@ const Navigation = ({ user, profiles }: NavigationProps) => {
 
             {/* Navigation Links */}
             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <NavLink href="/dashboard" active={pathname === '/dashboard'}>
-                Dashboard
+              <NavLink href="/accounts" active={pathname === '/dashboard'}>
+                Accounts
               </NavLink>
             </div>
           </div>

@@ -45,7 +45,7 @@ const ProfilePicker = ({ profiles }: ProfilePickerType) => {
                       selected ? 'font-medium' : 'font-normal'
                     }`}>
                     <p>{profile.name}</p>
-                    <p className="text-sm">{profile.description}</p>
+                    <p className="text-xs">{profile.description}</p>
                   </div>
                 )}
               </Listbox.Option>

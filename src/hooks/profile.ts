@@ -4,9 +4,16 @@ import { useState } from 'react'
 import useSWR, { Fetcher } from 'swr'
 
 const useProfile = () => {
-  const [selectedProfile, setSelectedProfile] = useState<ProfileType | null>(
-    null,
+  const [selectedProfile, _setSelectedProfile] = useState<ProfileType | null>(
+    localStorage.getItem('profile')
+      ? JSON.parse(localStorage.getItem('profile') as string)
+      : null,
   )
+
+  const setSelectedProfile = (profile: ProfileType | null) => {
+    _setSelectedProfile(profile)
+    localStorage.setItem('profile', JSON.stringify(profile))
+  }
 
   const fetcher: Fetcher<ProfileType[], string> = () =>
     axios
